@@ -6,7 +6,7 @@
 
     <groupId>com.newbiest</groupId>
     <artifactId>idgenerator</artifactId>
-    <version>1.0.0.RELEASE</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <name>idgenerator</name>
     <description>Idgenerator of Newbiest</description>
