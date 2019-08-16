@@ -60,7 +60,6 @@ public class SequenceRepositoryImpl implements SequenceRepositoryCustom {
     public Sequence createNewSequence(long orgRrn, String name, long generatorRrn, int minValue) throws ClientException{
         try {
             Sequence sequence = new Sequence();
-            sequence.setOrgRrn(orgRrn);
             sequence.setActiveFlag(true);
             sequence.setName(name);
             sequence.setGeneratorLineRrn(generatorRrn);

@@ -7,13 +7,13 @@
     <groupId>com.newbiest</groupId>
     <artifactId>idgenerator</artifactId>
     <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <name>idgenerator</name>
     <description>Idgenerator of Newbiest</description>
-    <packaging>jar</packaging>
 
     <properties>
-        <newbiest.framework.version>1.0.0.RELEASE</newbiest.framework.version>
+        <newbiest.framework.version>1.0.3-SNAPSHOT</newbiest.framework.version>
     </properties>
 
     <dependencies>

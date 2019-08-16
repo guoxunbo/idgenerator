@@ -67,7 +67,7 @@ public class GeneratorRuleLine extends NBBase {
     }
 
     protected String getReferenceValue(String key, GeneratorContext context) {
-        List<NBOwnerReferenceList> formatCodes = (List<NBOwnerReferenceList>) context.getUiService().getReferenceList(referenceName, NBReferenceList.CATEGORY_OWNER, SessionContext.buildSessionContext(orgRrn));
+        List<NBOwnerReferenceList> formatCodes = (List<NBOwnerReferenceList>) context.getUiService().getReferenceList(referenceName, NBReferenceList.CATEGORY_OWNER);
         Optional<NBOwnerReferenceList> optional =
                 formatCodes.stream().filter(nbOwnerReferenceList -> nbOwnerReferenceList.getKey().equals(key)).findFirst();
         if (optional.isPresent()) {

@@ -138,7 +138,7 @@ public class SequenceRuleLine extends GeneratorRuleLine{
         if (StringUtils.isNullOrEmpty(referenceName)) {
             currentString = translate(currentSeq);
         } else {
-            List<NBOwnerReferenceList> formatCodes = (List<NBOwnerReferenceList>) context.getUiService().getReferenceList(referenceName, NBReferenceList.CATEGORY_OWNER, SessionContext.buildSessionContext(orgRrn));
+            List<NBOwnerReferenceList> formatCodes = (List<NBOwnerReferenceList>) context.getUiService().getReferenceList(referenceName, NBReferenceList.CATEGORY_OWNER);
             if (CollectionUtils.isNotEmpty(formatCodes)) {
                 char[] digits = new char[formatCodes.size()];
                 for (int i = 0; i < formatCodes.size(); i++) {
