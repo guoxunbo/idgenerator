@@ -6,7 +6,6 @@ import com.newbiest.base.exception.ExceptionManager;
 import com.newbiest.base.ui.model.NBOwnerReferenceList;
 import com.newbiest.base.ui.model.NBReferenceList;
 import com.newbiest.base.utils.CollectionUtils;
-import com.newbiest.base.utils.SessionContext;
 import com.newbiest.base.utils.StringUtils;
 import com.newbiest.common.idgenerator.exception.GeneratorExceptions;
 import com.newbiest.common.idgenerator.utils.GeneratorContext;
@@ -260,7 +259,7 @@ public class SequenceRuleLine extends GeneratorRuleLine{
      */
     private List<Integer> getNextSequence(GeneratorContext context, int count, String sequenceName, int minValue) throws ClientException{
         try {
-            return context.getGeneratorService().getNextSequenceValue(orgRrn, objectRrn, sequenceName, count, minValue, context.isNewTransFlag());
+            return context.getGeneratorService().getNextSequenceValue(objectRrn, sequenceName, count, minValue, context.isNewTransFlag());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw ExceptionManager.handleException(e);

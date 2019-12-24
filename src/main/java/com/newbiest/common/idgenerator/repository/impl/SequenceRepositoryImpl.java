@@ -49,7 +49,6 @@ public class SequenceRepositoryImpl implements SequenceRepositoryCustom {
     }
     /**
      * 创建新的一个Sequence
-     * @param orgRrn 区域号
      * @param name 名称
      * @param generatorRrn IDGenerator的主键
      * @param minValue 最小值
@@ -57,7 +56,7 @@ public class SequenceRepositoryImpl implements SequenceRepositoryCustom {
      * @throws ClientException
      */
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Sequence createNewSequence(long orgRrn, String name, long generatorRrn, int minValue) throws ClientException{
+    public Sequence createNewSequence(String name, long generatorRrn, int minValue) throws ClientException{
         try {
             Sequence sequence = new Sequence();
             sequence.setActiveFlag(true);

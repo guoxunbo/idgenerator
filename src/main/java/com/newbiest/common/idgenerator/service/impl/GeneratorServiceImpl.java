@@ -5,10 +5,9 @@ import com.newbiest.base.exception.ClientException;
 import com.newbiest.base.exception.ClientParameterException;
 import com.newbiest.base.exception.ExceptionManager;
 import com.newbiest.base.service.BaseService;
+import com.newbiest.base.threadlocal.ThreadLocalContext;
 import com.newbiest.base.ui.service.UIService;
 import com.newbiest.base.utils.CollectionUtils;
-import com.newbiest.base.utils.SessionContext;
-import com.newbiest.base.utils.StringUtils;
 import com.newbiest.common.idgenerator.exception.GeneratorExceptions;
 import com.newbiest.common.idgenerator.model.GeneratorRule;
 import com.newbiest.common.idgenerator.model.GeneratorRuleLine;
@@ -50,13 +49,13 @@ public class GeneratorServiceImpl implements GeneratorService {
     private GeneratorRuleLineRepository generatorRuleLineRepository;
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public String generatorId(long orgRrn, GeneratorContext context) throws ClientException {
+    public String generatorId(GeneratorContext context) throws ClientException {
         try {
-            List<GeneratorRule> rules = (List<GeneratorRule>) generatorRuleRepository.findByNameAndOrgRrn(context.getRuleName(), orgRrn);
+            List<GeneratorRule> rules = (List<GeneratorRule>) generatorRuleRepository.findByNameAndOrgRrn(context.getRuleName(), ThreadLocalContext.getOrgRrn());
             if (!CollectionUtils.isNotEmpty(rules)) {
                 throw new ClientParameterException(GeneratorExceptions.COM_GENERATOR_RULE_IS_NOT_EXIST, context.getRuleName());
             }
-            return generatorId(orgRrn, rules.get(0), context).get(0);
+            return generatorId(rules.get(0), context).get(0);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw ExceptionManager.handleException(e);
@@ -64,13 +63,12 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public List<String> generatorId(long orgRrn, GeneratorRule rule, GeneratorContext context) throws ClientException {
-        return generatorId(orgRrn, rule, false, context);
+    public List<String> generatorId(GeneratorRule rule, GeneratorContext context) throws ClientException {
+        return generatorId(rule, false, context);
     }
 
     /**
      * 批量生成序号
-     * @param orgRrn 区域号
      * @param rule 序号生成规则
      * @param isParameterList 是否使用参数List处理批量生成序号
      * @param context 序号生成上下文
@@ -78,7 +76,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @return 生成的序号
      */
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public List<String> generatorId(long orgRrn, @NotNull GeneratorRule rule, boolean isParameterList, GeneratorContext context) throws ClientException {
+    public List<String> generatorId(@NotNull GeneratorRule rule, boolean isParameterList, GeneratorContext context) throws ClientException {
         try {
             context.setBaseService(baseService);
             context.setUiService(uiService);
@@ -108,28 +106,26 @@ public class GeneratorServiceImpl implements GeneratorService {
      * 根据对应的Generator及NBSequence的名字 获得所对应的下一个Sequence值
      * 如果没有则创建一个新的记录 新开事务进行处理
      *
-     * @param orgRrn 所对应的区域
      * @param generatorLineRrn 所对应的GeneratorLine的ObjectRrn
      * @param sequenceName Sequence的名字
      * @param count 所需要获得Sequence数量
      */
     @Override
-    public List<Integer> getNextSequenceValue(long orgRrn, long generatorLineRrn, String sequenceName, int count) throws ClientException {
-        return getNextSequenceValue(orgRrn, generatorLineRrn, sequenceName, count, 0, true);
+    public List<Integer> getNextSequenceValue(long generatorLineRrn, String sequenceName, int count) throws ClientException {
+        return getNextSequenceValue(generatorLineRrn, sequenceName, count, 0, true);
     }
 
     /**
      * 根据对应的Generator及Sequence的名字 获得所对应的下一个Sequence值
      * 如果没有则创建一个新的记录 新开事务进行处理
-     * @param orgRrn 所对应的区域
      * @param generatorLineRrn 所对应的GeneratorLine的ObjectRrn
      * @param sequenceName Sequence的名字
      * @param count 所需要获得Sequence数量
      * @param minValue 最小Seq值,所返回的Seq必须大于等于minValue
      */
     @Override
-    public List<Integer> getNextSequenceValue(long orgRrn, long generatorLineRrn, String sequenceName, int count, int minValue) throws ClientException {
-        return getNextSequenceValue(orgRrn, generatorLineRrn, sequenceName, count, minValue, true);
+    public List<Integer> getNextSequenceValue(long generatorLineRrn, String sequenceName, int count, int minValue) throws ClientException {
+        return getNextSequenceValue(generatorLineRrn, sequenceName, count, minValue, true);
     }
 
     /**
@@ -137,7 +133,6 @@ public class GeneratorServiceImpl implements GeneratorService {
      * 获得所对应的下一个Sequence值
      * 如果没有则创建一个新的记录
      *
-     * @param orgRrn 所对应的区域
      * @param generatorLineRrn 所对应的GeneratorLine的ObjectRrn
      * @param sequenceName Sequence的名字
      * @param count 所需要获得Sequence数量
@@ -145,11 +140,11 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param newTrans 是否在新的事务中创建Sequence(默认为ture),防止并发锁
      */
     @Override
-    public List<Integer> getNextSequenceValue(long orgRrn, long generatorLineRrn, String sequenceName, int count, int minValue, boolean newTrans) throws ClientException {
+    public List<Integer> getNextSequenceValue(long generatorLineRrn, String sequenceName, int count, int minValue, boolean newTrans) throws ClientException {
         Sequence sequence = sequenceRepository.getByNameAndGeneratorLineRrn(sequenceName, generatorLineRrn);
         if (sequence == null) {
             // 创建Sequence 有可能多个同时创建 故在此进行查询。
-            sequence = sequenceRepository.createNewSequence(orgRrn, sequenceName, generatorLineRrn, minValue);
+            sequence = sequenceRepository.createNewSequence(sequenceName, generatorLineRrn, minValue);
             if (sequence == null) {
                 sequence = sequenceRepository.getByNameAndGeneratorLineRrn(sequenceName, generatorLineRrn);
                 if (sequence == null) {
@@ -169,7 +164,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param ruleRrn 主键
      * @throws ClientException
      */
-    public void deleteGeneratorRule(Long ruleRrn, SessionContext sc) throws ClientException{
+    public void deleteGeneratorRule(Long ruleRrn) throws ClientException{
         try {
             // 删除line
             generatorRuleLineRepository.deleteByRuleRrn(ruleRrn);

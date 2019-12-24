@@ -3,7 +3,6 @@ package com.newbiest.common.idgenerator.model;
 import com.newbiest.base.model.NBBase;
 import com.newbiest.base.ui.model.NBOwnerReferenceList;
 import com.newbiest.base.ui.model.NBReferenceList;
-import com.newbiest.base.utils.SessionContext;
 import com.newbiest.common.idgenerator.utils.GeneratorContext;
 import lombok.Data;
 

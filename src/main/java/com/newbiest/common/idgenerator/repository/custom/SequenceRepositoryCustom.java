@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface SequenceRepositoryCustom {
 
-    Sequence createNewSequence(long orgRrn, String name, long generatorRrn, int minValue) throws ClientException;
+    Sequence createNewSequence(String name, long generatorRrn, int minValue) throws ClientException;
 
     List<Integer> getNextSequenceValue(Sequence sequence, int count, int minValue) throws ClientException;
     List<Integer> getNextSequenceValueNewTrans(Sequence sequence, int count, int minValue) throws ClientException;
