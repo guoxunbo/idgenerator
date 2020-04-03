@@ -1,6 +1,7 @@
 package com.newbiest.common.idgenerator.service.impl;
 
 import com.google.common.collect.Lists;
+import com.newbiest.base.annotation.BaseJpaFilter;
 import com.newbiest.base.exception.ClientException;
 import com.newbiest.base.exception.ClientParameterException;
 import com.newbiest.base.exception.ExceptionManager;
@@ -31,6 +32,7 @@ import java.util.List;
 @Service
 @Transactional
 @Slf4j
+@BaseJpaFilter
 public class GeneratorServiceImpl implements GeneratorService {
 
     @Autowired
@@ -51,11 +53,11 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     public String generatorId(GeneratorContext context) throws ClientException {
         try {
-            List<GeneratorRule> rules = (List<GeneratorRule>) generatorRuleRepository.findByNameAndOrgRrn(context.getRuleName(), ThreadLocalContext.getOrgRrn());
-            if (!CollectionUtils.isNotEmpty(rules)) {
+            GeneratorRule rule = generatorRuleRepository.findOneByName(context.getRuleName());
+            if (rule == null) {
                 throw new ClientParameterException(GeneratorExceptions.COM_GENERATOR_RULE_IS_NOT_EXIST, context.getRuleName());
             }
-            return generatorId(rules.get(0), context).get(0);
+            return generatorId(rule, context).get(0);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw ExceptionManager.handleException(e);
