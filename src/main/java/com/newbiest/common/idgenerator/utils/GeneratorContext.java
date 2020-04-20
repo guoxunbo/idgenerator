@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import com.newbiest.base.service.BaseService;
 import com.newbiest.base.ui.service.UIService;
 import com.newbiest.common.idgenerator.service.GeneratorService;
-import com.newbiest.main.ApplicationContextProvider;
 import lombok.Data;
 
 import java.util.List;
@@ -37,7 +36,6 @@ public class GeneratorContext {
     private int count = 1;
 
     private Integer currentIndex = null;
-
 
     public void addParameter(String name, Object value) {
         parameterMap.put(name, value);
