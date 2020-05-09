@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
  * Created by guoxunbo on 2018/8/6.
  */
 @Repository
-public interface SequenceRepository extends IRepository<Sequence, Long>, SequenceRepositoryCustom {
+public interface SequenceRepository extends IRepository<Sequence, String>, SequenceRepositoryCustom {
 
-    Sequence getByNameAndGeneratorLineRrn(String name, long generatorLineRrn);
+    Sequence getByNameAndGeneratorLineRrn(String name, String generatorLineRrn);
 
 }

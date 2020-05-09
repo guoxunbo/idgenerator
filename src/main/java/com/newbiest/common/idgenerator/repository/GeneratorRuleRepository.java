@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * Created by guoxunbo on 2018/8/7.
  */
 @Repository
-public interface GeneratorRuleRepository extends IRepository<GeneratorRule, Long>, GeneratorRuleRepositoryCustom {
+public interface GeneratorRuleRepository extends IRepository<GeneratorRule, String>, GeneratorRuleRepositoryCustom {
 
 
 }

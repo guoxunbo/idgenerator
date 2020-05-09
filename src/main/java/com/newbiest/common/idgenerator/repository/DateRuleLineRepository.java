@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by guoxunbo on 2018/8/7.
  */
 @Repository
-public interface DateRuleLineRepository extends IRepository<DateRuleLine, Long> {
+public interface DateRuleLineRepository extends IRepository<DateRuleLine, String> {
 
 }

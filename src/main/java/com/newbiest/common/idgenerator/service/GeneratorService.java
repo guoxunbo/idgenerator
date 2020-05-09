@@ -12,15 +12,15 @@ import java.util.List;
  */
 public interface GeneratorService {
 
-    void deleteGeneratorRule(Long ruleRrn) throws ClientException;
+    void deleteGeneratorRule(String ruleRrn) throws ClientException;
 
     String generatorId(GeneratorContext context) throws ClientException;
     List<String> generatorId(@NotNull GeneratorRule rule, GeneratorContext context) throws ClientException;
     List<String> generatorId(@NotNull GeneratorRule rule, boolean isParameterList, GeneratorContext context) throws ClientException;
 
-    List<Integer> getNextSequenceValue(long generateRrn, String sequenceName, int count) throws ClientException;;
-    List<Integer> getNextSequenceValue(long generateRrn, String sequenceName, int count, int minValue) throws ClientException;
-    List<Integer> getNextSequenceValue(long generateRrn, String sequenceName, int count, int minValue, boolean newTrans) throws ClientException;
+    List<Integer> getNextSequenceValue(String generateRrn, String sequenceName, int count) throws ClientException;;
+    List<Integer> getNextSequenceValue(String generateRrn, String sequenceName, int count, int minValue) throws ClientException;
+    List<Integer> getNextSequenceValue(String generateRrn, String sequenceName, int count, int minValue, boolean newTrans) throws ClientException;
 
 
 }

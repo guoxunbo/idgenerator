@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
  * Created by guoxunbo on 2018/8/7.
  */
 @Repository
-public interface GeneratorRuleLineRepository extends IRepository<GeneratorRuleLine, Long> {
+public interface GeneratorRuleLineRepository extends IRepository<GeneratorRuleLine, String> {
 
     @Modifying
     @Query("DELETE FROM GeneratorRuleLine WHERE ruleRrn = :ruleRrn")
-    void deleteByRuleRrn(@Param("ruleRrn") Long ruleRrn) throws ClientException;
+    void deleteByRuleRrn(@Param("ruleRrn") String ruleRrn) throws ClientException;
 
 }

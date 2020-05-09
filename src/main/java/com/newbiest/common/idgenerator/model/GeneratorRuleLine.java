@@ -44,7 +44,7 @@ public class GeneratorRuleLine extends NBBase {
     public static final String DATA_TYPE_SEQUENCE = "S";
 
     @Column(name="RULE_RRN")
-    protected Long ruleRrn;
+    protected String ruleRrn;
 
     @Column(name="SEQ_NO")
     protected Long seqNo;

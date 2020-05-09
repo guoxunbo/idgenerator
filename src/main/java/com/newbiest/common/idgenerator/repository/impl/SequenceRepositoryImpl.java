@@ -56,7 +56,7 @@ public class SequenceRepositoryImpl implements SequenceRepositoryCustom {
      * @throws ClientException
      */
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Sequence createNewSequence(String name, long generatorRrn, int minValue) throws ClientException{
+    public Sequence createNewSequence(String name, String generatorRrn, int minValue) throws ClientException{
         try {
             Sequence sequence = new Sequence();
             sequence.setActiveFlag(true);

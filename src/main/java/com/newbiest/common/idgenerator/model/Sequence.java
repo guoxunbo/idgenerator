@@ -23,6 +23,6 @@ public class Sequence extends NBUpdatable {
     private Long nextSeq;
 
     @Column(name = "GENERATOR_LINE_RRN")
-    private Long generatorLineRrn;
+    private String generatorLineRrn;
 
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by guoxunbo on 2018/8/7.
  */
 @Repository
-public interface SequenceRuleLineRepository extends IRepository<SequenceRuleLine, Long> {
+public interface SequenceRuleLineRepository extends IRepository<SequenceRuleLine, String> {
 
 }

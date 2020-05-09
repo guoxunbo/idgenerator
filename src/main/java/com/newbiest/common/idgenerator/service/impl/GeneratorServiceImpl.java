@@ -113,7 +113,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param count 所需要获得Sequence数量
      */
     @Override
-    public List<Integer> getNextSequenceValue(long generatorLineRrn, String sequenceName, int count) throws ClientException {
+    public List<Integer> getNextSequenceValue(String generatorLineRrn, String sequenceName, int count) throws ClientException {
         return getNextSequenceValue(generatorLineRrn, sequenceName, count, 0, true);
     }
 
@@ -126,7 +126,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param minValue 最小Seq值,所返回的Seq必须大于等于minValue
      */
     @Override
-    public List<Integer> getNextSequenceValue(long generatorLineRrn, String sequenceName, int count, int minValue) throws ClientException {
+    public List<Integer> getNextSequenceValue(String generatorLineRrn, String sequenceName, int count, int minValue) throws ClientException {
         return getNextSequenceValue(generatorLineRrn, sequenceName, count, minValue, true);
     }
 
@@ -142,7 +142,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param newTrans 是否在新的事务中创建Sequence(默认为ture),防止并发锁
      */
     @Override
-    public List<Integer> getNextSequenceValue(long generatorLineRrn, String sequenceName, int count, int minValue, boolean newTrans) throws ClientException {
+    public List<Integer> getNextSequenceValue(String generatorLineRrn, String sequenceName, int count, int minValue, boolean newTrans) throws ClientException {
         Sequence sequence = sequenceRepository.getByNameAndGeneratorLineRrn(sequenceName, generatorLineRrn);
         if (sequence == null) {
             // 创建Sequence 有可能多个同时创建 故在此进行查询。
@@ -166,7 +166,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param ruleRrn 主键
      * @throws ClientException
      */
-    public void deleteGeneratorRule(Long ruleRrn) throws ClientException{
+    public void deleteGeneratorRule(String ruleRrn) throws ClientException{
         try {
             // 删除line
             generatorRuleLineRepository.deleteByRuleRrn(ruleRrn);
