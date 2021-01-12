@@ -29,18 +29,5 @@ public class IdGeneratorConfiguration {
         liquibase.setDropFirst(false);
         return liquibase;
     }
-
-    @PostConstruct
-    public void init() {
-        //注册modelClassLoader
-        ModelFactory.registerModelClassLoader(GeneratorRule.class.getName(), GeneratorRule.class.getClassLoader());
-        ModelFactory.registerModelClassLoader(GeneratorRuleLine.class.getName(), GeneratorRuleLine.class.getClassLoader());
-        ModelFactory.registerModelClassLoader(Sequence.class.getName(), Sequence.class.getClassLoader());
-
-        ModelFactory.registerModelClassLoader(FixedStringRuleLine.class.getName(), FixedStringRuleLine.class.getClassLoader());
-        ModelFactory.registerModelClassLoader(DateRuleLine.class.getName(), DateRuleLine.class.getClassLoader());
-        ModelFactory.registerModelClassLoader(SequenceRuleLine.class.getName(), SequenceRuleLine.class.getClassLoader());
-        ModelFactory.registerModelClassLoader(VariableRuleLine.class.getName(), VariableRuleLine.class.getClassLoader());
-
-    }
+    
 }
